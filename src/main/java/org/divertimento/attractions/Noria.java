@@ -8,9 +8,14 @@ public class Noria implements IAttraction {
     private List<Vehicle> vehicles;
     private int breakdownCounter;
 
-    public Noria(List<Vehicle> vehicles, int breakdownCounter) {
+    private int capacity;
+    private int currentCount;
+
+    public Noria(List<Vehicle> vehicles, int breakdownCounter, int capacity) {
         this.vehicles = vehicles;
         this.breakdownCounter = breakdownCounter;
+        this.capacity = capacity;
+        this.currentCount = 0;
     }
 
     public int getBreakdownCounter() {
@@ -39,6 +44,26 @@ public class Noria implements IAttraction {
     public void checkVehicles() {
         for (Vehicle vehicle : vehicles) {
             vehicle.checkAnchorage();
+        }
+    }
+
+    @Override
+    public boolean enter() {
+        if (currentCount < capacity) {
+            currentCount++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean exit() {
+        if (currentCount > 0) {
+            currentCount--;
+            return true;
+        } else {
+            return false;
         }
     }
 }

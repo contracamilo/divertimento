@@ -1,7 +1,9 @@
 package org.divertimento;
 
 import org.divertimento.attractions.Noria;
+import org.divertimento.attractions.RollerCoaster;
 import org.divertimento.attractions.Vehicle;
+import org.divertimento.control.AttractionController;
 import org.divertimento.cra.CentralReceiver;
 import org.divertimento.cra.Operator;
 import org.divertimento.cra.OperatorDevice;
@@ -37,14 +39,21 @@ public class Main {
         List<Vehicle> vehicles = new ArrayList<>();
 
         // Crear una instancia de Noria
-        Noria noria = new Noria(vehicles, 0);
+        Noria noria = new Noria(vehicles, 0, 10); // capacidad de 10
+
+        // Crear una instancia de RollerCoaster
+        RollerCoaster rollerCoaster = new RollerCoaster(vehicles, 0, 5); // capacidad de 5
 
         // Crear vehículos y agregarlos a la lista
         vehicles.add(new Vehicle("Vehículo 1", noria, false, Vehicle.AnchorState.UNPINNED, cra));
         vehicles.add(new Vehicle("Vehículo 2", noria, false, Vehicle.AnchorState.UNPINNED, cra));
 
+        // Crear controladores de atracciones
+        AttractionController noriaController = new AttractionController(noria);
+        AttractionController rollerCoasterController = new AttractionController(rollerCoaster);
+
         // Crear una instancia de MainFrame y ejecutarla
-        MainFrame mainFrame = new MainFrame(operators, noria);
+        MainFrame mainFrame = new MainFrame(operators, noria, noriaController, rollerCoasterController);
         mainFrame.run();
     }
 }

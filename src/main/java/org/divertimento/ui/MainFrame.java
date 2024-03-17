@@ -1,6 +1,7 @@
 package org.divertimento.ui;
 
 import org.divertimento.attractions.Noria;
+import org.divertimento.control.AttractionController;
 import org.divertimento.cra.CentralReceiver;
 import org.divertimento.cra.Operator;
 
@@ -18,9 +19,10 @@ public class MainFrame {
 
     private CentralReceiver centralReceiver;
     private Noria noria;
+    private AttractionController noriaController;
+    private AttractionController rollerCoasterController;
 
-
-    public MainFrame(List<Operator> operators, Noria noria) {
+    public MainFrame(List<Operator> operators, Noria noria, AttractionController noriaController, AttractionController rollerCoasterController) {
         scanner = new Scanner(System.in);
         attractionsStatus = new HashMap<>();
         attractionsStatus.put(NORIA, true);
@@ -29,32 +31,72 @@ public class MainFrame {
 
         this.centralReceiver = new CentralReceiver(operators);
         this.noria = noria;
+        this.noriaController = noriaController;
+        this.rollerCoasterController = rollerCoasterController;
     }
 
     public void run() {
         while (true) {
             System.out.println("\nDivertimento Park System - Main Menu");
-            System.out.println("1. Simulate Breakdown");
-            System.out.println("2. Repair Attraction");
-            System.out.println("3. Simulate Visitors Flow");
-            System.out.println("4. Exit");
+            System.out.println("1. Repair Attraction");
+            System.out.println("2. Simulations");
+            System.out.println("3. Exit");
             System.out.print("Please enter your choice: ");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    simulateBreakdown();
-                    break;
-                case "2":
                     repairAttraction();
                     break;
-                case "3":
-                    simulateVisitorsFlow();
+                case "2":
+                    runSimulationsMenu();
                     break;
-                case "4":
+                case "3":
                     System.out.println("Exiting system...");
                     return;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+                    break;
+            }
+        }
+    }
+
+    private void runSimulationsMenu() {
+        while (true) {
+            System.out.println("\nDivertimento Park System - Simulations Menu");
+            System.out.println("1. Simulate Visitors Flow");
+            System.out.println("2. Simulate Entrance to Noria");
+            System.out.println("3. Simulate Exit from Noria");
+            System.out.println("4. Simulate Entrance to RollerCoaster");
+            System.out.println("5. Simulate Exit from RollerCoaster");
+            System.out.println("6. Simulate Breakdown");
+            System.out.println("7. Back to Main Menu");
+            System.out.print("Please enter your choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    simulateVisitorsFlow();
+                    break;
+                case "2":
+                    System.out.println("Entrance to Noria: " + noriaController.enterAttraction());
+                    break;
+                case "3":
+                    System.out.println("Exit from Noria: " + noriaController.exitAttraction());
+                    break;
+                case "4":
+                    System.out.println("Entrance to RollerCoaster: " + rollerCoasterController.enterAttraction());
+                    break;
+                case "5":
+                    System.out.println("Exit from RollerCoaster: " + rollerCoasterController.exitAttraction());
+                    break;
+                case "6":
+                    simulateBreakdown();
+                    break;
+                case "7":
+                    return; // return to the main menu
                 default:
                     System.out.println("Invalid choice, please try again.");
                     break;

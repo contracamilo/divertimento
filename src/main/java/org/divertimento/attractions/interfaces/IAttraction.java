@@ -5,4 +5,6 @@ public interface IAttraction {
         void stop();
         void reportBreakdown();
         void checkVehicles();
+        boolean enter();
+        boolean exit();
 }
