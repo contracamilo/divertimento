@@ -37,6 +37,8 @@ public class Noria implements IAttraction {
 
     @Override
     public void checkVehicles() {
-
+        for (Vehicle vehicle : vehicles) {
+            vehicle.checkAnchorage();
+        }
     }
 }

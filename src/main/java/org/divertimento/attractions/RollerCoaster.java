@@ -31,6 +31,8 @@ public class RollerCoaster implements IAttraction {
 
     @Override
     public void checkVehicles() {
-
+        for (Vehicle vehicle : vehicles) {
+            vehicle.checkAnchorage();
+        }
     }
 }

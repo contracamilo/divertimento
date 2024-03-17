@@ -16,14 +16,15 @@ public class CentralReceiver implements ICentralReceiver {
     @Override
     public void receiveBreakdownReport(Vehicle vehicle) {
         brokenVehicles.add(vehicle); // Agrega el vehículo a la lista de vehículos averiados
+        this.assignWorkerToRepair(vehicle);
     }
 
     @Override
     public void assignWorkerToRepair(Vehicle vehicle) {
         for (Operator operator : operators) {
             if (operator.getStatus() == Operator.OperatorState.FREE) {
-                operator.repairVehicle(vehicle);
-                brokenVehicles.remove(vehicle);
+                operator.setStatus(Operator.OperatorState.BUSY);
+                operator.getDevice().receiveBreakdownNotification("Noria, Calle felicidad");
                 break;
             }
         }
