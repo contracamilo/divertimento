@@ -8,52 +8,44 @@ import org.divertimento.cra.CentralReceiver;
 import org.divertimento.cra.Operator;
 import org.divertimento.cra.OperatorDevice;
 import org.divertimento.ui.MainFrame;
+import org.divertimento.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        boolean running = true;
 
-        // Crear una lista de operadores
         List<Operator> operators = new ArrayList<>();
+        operators.add(new Operator("Operador 1"));
 
-        // Crear una instancia de CentralReceiver
+        List<Vehicle> noriaVehicles = new ArrayList<>();
+        List<Vehicle> rollerCoasterVehicles = new ArrayList<>();
+
+        Noria noria = new Noria(noriaVehicles, 0, 100);
+        RollerCoaster rollerCoaster = new RollerCoaster(rollerCoasterVehicles, 0, 20);
+
         CentralReceiver cra = new CentralReceiver(operators);
 
-        // Crear operadores y agregarlos a la lista
-        Operator operator1 = new Operator("Operador 1");
-        operators.add(operator1);
+        // Vehículos para la Noria
+        noriaVehicles.add(new Vehicle("Vehículo 1", noria, false, Utils.AnchorState.PINNED, cra));
+        noriaVehicles.add(new Vehicle("Vehículo 2", noria, false, Utils.AnchorState.PINNED, cra));
+        noriaVehicles.add(new Vehicle("Vehículo 3", noria, false, Utils.AnchorState.PINNED, cra));
+        // Vehículos para la m. rusa
+        rollerCoasterVehicles.add(new Vehicle("Carro 1", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
+        rollerCoasterVehicles.add(new Vehicle("Carro 2", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
+        rollerCoasterVehicles.add(new Vehicle("Carro 3", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
 
-        Operator operator2 = new Operator("Operador 2");
-        operators.add(operator2);
 
-        // Crear dispositivos para los operadores y asignarlos
-        OperatorDevice device1 = new OperatorDevice(operator1);
-        operator1.setDevice(device1);
+        while (running) {
 
-        OperatorDevice device2 = new OperatorDevice(operator2);
-        operator2.setDevice(device2);
+            // Crear controladores de atracciones
+            AttractionController noriaController = new AttractionController(noria);
+            AttractionController rollerCoasterController = new AttractionController(rollerCoaster);
 
-        // Crear una lista de vehículos para la Noria
-        List<Vehicle> vehicles = new ArrayList<>();
-
-        // Crear una instancia de Noria
-        Noria noria = new Noria(vehicles, 0, 10); // capacidad de 10
-
-        // Crear una instancia de RollerCoaster
-        RollerCoaster rollerCoaster = new RollerCoaster(vehicles, 0, 5); // capacidad de 5
-
-        // Crear vehículos y agregarlos a la lista
-        vehicles.add(new Vehicle("Vehículo 1", noria, false, Vehicle.AnchorState.UNPINNED, cra));
-        vehicles.add(new Vehicle("Vehículo 2", noria, false, Vehicle.AnchorState.UNPINNED, cra));
-
-        // Crear controladores de atracciones
-        AttractionController noriaController = new AttractionController(noria);
-        AttractionController rollerCoasterController = new AttractionController(rollerCoaster);
-
-        // Crear una instancia de MainFrame y ejecutarla
-        MainFrame mainFrame = new MainFrame(operators, noria, noriaController, rollerCoasterController);
-        mainFrame.run();
+            MainFrame mainFrame = new MainFrame(operators, noriaController, rollerCoasterController, noriaVehicles, rollerCoasterVehicles);
+            running = mainFrame.run();
+        }
     }
 }

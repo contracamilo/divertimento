@@ -27,12 +27,16 @@ public class Noria implements IAttraction {
 
     @Override
     public void start() {
-
+        if (!isFull() && isOperational()) {
+            System.out.println("Starting Noria...");
+        }
     }
 
     @Override
     public void stop() {
-
+        if (isFull() || !isOperational()) {
+            System.out.println("Stopping Noria...");
+        }
     }
 
     @Override
@@ -65,5 +69,20 @@ public class Noria implements IAttraction {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean isFull() {
+        return currentCount >= capacity;
+    }
+
+    @Override
+    public boolean isOperational() {
+        return breakdownCounter == 0;
+    }
+
+    @Override
+    public List<Vehicle> getVehicles() {
+        return this.vehicles;
     }
 }

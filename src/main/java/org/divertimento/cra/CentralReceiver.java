@@ -2,6 +2,7 @@ package org.divertimento.cra;
 
 import org.divertimento.attractions.Vehicle;
 import org.divertimento.cra.interfaces.ICentralReceiver;
+import org.divertimento.utils.Utils;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class CentralReceiver implements ICentralReceiver {
     @Override
     public void assignWorkerToRepair(Vehicle vehicle) {
         for (Operator operator : operators) {
-            if (operator.getStatus() == Operator.OperatorState.FREE) {
-                operator.setStatus(Operator.OperatorState.BUSY);
-                operator.getDevice().receiveBreakdownNotification("Noria, Calle felicidad");
+            if (operator.getStatus() == Utils.OperatorState.FREE) {
+                operator.updateStatus(Utils.OperatorState.BUSY);
+                operator.getDevice().receiveBreakdownNotification("Calle felicidad");
                 break;
             }
         }

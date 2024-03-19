@@ -2,6 +2,7 @@ package org.divertimento.attractions;
 import org.divertimento.attractions.interfaces.IAttraction;
 import org.divertimento.attractions.interfaces.IVehicle;
 import org.divertimento.cra.CentralReceiver;
+import org.divertimento.utils.Utils;
 
 public class Vehicle implements IVehicle {
     private final String idVehicle;
@@ -10,13 +11,9 @@ public class Vehicle implements IVehicle {
     private final CentralReceiver cra;
 
     private boolean hasReviewRequest;
-    private AnchorState anchorState;
-    public enum AnchorState {
-        PINNED,
-        UNPINNED
-    }
+    private Utils.AnchorState anchorState;
 
-    public Vehicle(String idVehicle, IAttraction attraction, boolean hasReviewRequest, AnchorState anchorState, CentralReceiver cra) {
+    public Vehicle(String idVehicle, IAttraction attraction, boolean hasReviewRequest, Utils.AnchorState anchorState, CentralReceiver cra) {
         this.idVehicle = idVehicle;
         this.attraction = attraction;
         this.hasReviewRequest = hasReviewRequest;
@@ -24,7 +21,7 @@ public class Vehicle implements IVehicle {
         this.cra = cra;
     }
 
-    public void setAnchorState(AnchorState anchorState) {
+    public void setAnchorState(Utils.AnchorState anchorState) {
         this.anchorState = anchorState;
     }
 
@@ -34,7 +31,7 @@ public class Vehicle implements IVehicle {
 
     @Override
     public void checkAnchorage() {
-        if (this.anchorState == AnchorState.UNPINNED) {
+        if (this.anchorState == Utils.AnchorState.UNPINNED) {
             this.reportCRA();
         }
     }
@@ -42,5 +39,23 @@ public class Vehicle implements IVehicle {
     @Override
     public void reportCRA() {
         this.cra.receiveBreakdownReport(this);
+    }
+
+    @Override
+    public boolean isFailed() {
+        return this.anchorState == Utils.AnchorState.UNPINNED;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "idVehicle='" + idVehicle + '\'' +
+                ", hasReviewRequest=" + hasReviewRequest +
+                ", anchorState=" + anchorState +
+                '}';
+    }
+
+    public String getIdVehicle() {
+        return idVehicle;
     }
 }

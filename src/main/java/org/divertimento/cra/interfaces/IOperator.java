@@ -6,6 +6,6 @@ import org.divertimento.cra.Operator;
 public interface IOperator {
     void repairVehicle(Vehicle vehicle);
     void completeBreakdown();
-    void updateStatus(Operator.OperatorState status);
+    // void updateStatus(Operator.OperatorState status);
     boolean isFree();
 }

@@ -20,12 +20,16 @@ public class RollerCoaster implements IAttraction {
 
     @Override
     public void start() {
-
+        if (!isFull() && isOperational()) {
+            System.out.println("Starting RollerCoaster...");
+        }
     }
 
     @Override
     public void stop() {
-
+        if (isFull() || !isOperational()) {
+            System.out.println("Stopping RollerCoaster...");
+        }
     }
 
     @Override
@@ -58,5 +62,20 @@ public class RollerCoaster implements IAttraction {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean isFull() {
+        return currentCount >= capacity;
+    }
+
+    @Override
+    public boolean isOperational() {
+        return breakdownCounter == 0;
+    }
+
+    @Override
+    public List<Vehicle> getVehicles() {
+        return this.vehicles;
     }
 }
