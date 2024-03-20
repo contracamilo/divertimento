@@ -1,11 +1,13 @@
 package org.divertimento.attractions;
 
 import org.divertimento.attractions.interfaces.IAttraction;
+import org.divertimento.utils.Utils;
+
 import java.util.List;
 
 public class RollerCoaster implements IAttraction {
     private final List<Vehicle> vehicles;
-    private final int breakdownCounter;
+    private int breakdownCounter;
 
     private int capacity;
     private int currentCount;
@@ -40,7 +42,10 @@ public class RollerCoaster implements IAttraction {
     @Override
     public void checkVehicles() {
         for (Vehicle vehicle : vehicles) {
-            vehicle.checkAnchorage();
+            if (vehicle.getAnchorState() == Utils.AnchorState.UNPINNED) {
+                vehicle.reportCRA();
+                this.reportBreakdown();
+            }
         }
     }
 
@@ -77,5 +82,19 @@ public class RollerCoaster implements IAttraction {
     @Override
     public List<Vehicle> getVehicles() {
         return this.vehicles;
+    }
+
+    @Override
+    public String getStatus() {
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getAnchorState() == Utils.AnchorState.UNPINNED) {
+                return "Blocked";
+            }
+        }
+        return "Operational";
+    }
+
+    public void setBreakdownCounter(int breakdownCounter) {
+        this.breakdownCounter = breakdownCounter;
     }
 }

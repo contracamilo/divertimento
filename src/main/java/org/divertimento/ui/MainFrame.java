@@ -16,6 +16,7 @@ public class MainFrame {
     private AttractionController rollerCoasterController;
     private List<Vehicle> noriaVehicles;
     private List<Vehicle> rollerCoasterVehicles;
+    private List<Vehicle> breakdownVehicles;
 
     public MainFrame(List<Operator> operators, AttractionController noriaController, AttractionController rollerCoasterController, List<Vehicle> noriaVehicles, List<Vehicle> rollerCoasterVehicles) {
         scanner = new Scanner(System.in);
@@ -31,32 +32,38 @@ public class MainFrame {
         // Inicializar las listas de vehículos
         this.noriaVehicles = noriaVehicles != null ? noriaVehicles : new ArrayList<>();
         this.rollerCoasterVehicles = rollerCoasterVehicles != null ? rollerCoasterVehicles : new ArrayList<>();
+        this.breakdownVehicles = new ArrayList<>();
     }
 
     public boolean run() {
         System.out.println("\nDivertimento Park System - Main Menu");
-        System.out.println("1. Repair Attraction");
+        System.out.println("1. List attractions and vehicles");
         System.out.println("2. Simulations");
-        System.out.println("3. Print Status");
-        System.out.println("4. Exit");
+        System.out.println("3. Attractions Status");
+        System.out.println("4. Check for failures");
+        System.out.println("5. List Breakdowns");
+        System.out.println("6. Exit");
         System.out.print("Please enter your choice: ");
 
         String choice = scanner.nextLine();
 
         switch (choice) {
             case "1":
-                //repairAttraction();
+                printAttractionsAndVehicles();
                 break;
             case "2":
                 runSimulationsMenu();
                 break;
             case "3":
-                //printStatus();
+                printStatus();
                 break;
             case "4":
-                System.out.println("Exiting system...");
-                return false;
+                checkForFailures();
+                break;
             case "5":
+                listBreakdowns();
+                break;
+            case "6":
                 //close();
                 System.out.println("Closing system...");
                 System.exit(0);
@@ -101,7 +108,6 @@ public class MainFrame {
                 case "6":
                     if (noriaVehicles != null) {
                         simulateBreakdown(noriaVehicles);
-                        printAttractionsAndVehicles();
                     } else {
                         System.out.println("No vehicles found for Noria.");
                     }
@@ -123,7 +129,11 @@ public class MainFrame {
         vehicle.setHasReviewRequest(true);
         vehicle.setAnchorState(Utils.AnchorState.UNPINNED);
 
+        // Agregar el vehículo averiado a la lista de vehículos averiados
+        breakdownVehicles.add(vehicle);
+
         System.out.println("A breakdown has been simulated in vehicle: " + vehicle.getIdVehicle());
+        System.out.println("The CRA and the attraction have been notified.");
     }
 
     public void printAttractionsAndVehicles() {
@@ -131,12 +141,31 @@ public class MainFrame {
 
         System.out.println("\nNoria:");
         for (Vehicle vehicle : noriaVehicles) {
-            System.out.println(vehicle);
+            System.out.println("Vehicle ID: " + vehicle.getIdVehicle() + ", Anchor State: " + vehicle.getAnchorState());
         }
 
         System.out.println("\nRollerCoaster:");
         for (Vehicle vehicle : rollerCoasterVehicles) {
-            System.out.println(vehicle);
+            System.out.println("Vehicle ID: " + vehicle.getIdVehicle() + ", Anchor State: " + vehicle.getAnchorState());
         }
+    }
+
+    public void printStatus(){
+        System.out.println("Attractions Status:");
+        System.out.println("NORIA: " + noriaController.getAttraction().getStatus());
+        System.out.println("MONTANA_RUSA: " + rollerCoasterController.getAttraction().getStatus());
+    }
+
+    public void listBreakdowns() {
+        System.out.println("List of breakdowns:");
+        for (Vehicle vehicle : breakdownVehicles) {
+            System.out.println("Vehicle ID: " + vehicle.getIdVehicle());
+        }
+    }
+
+    public void checkForFailures() {
+
+
+
     }
 }

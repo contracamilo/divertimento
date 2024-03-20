@@ -13,4 +13,6 @@ public interface IAttraction {
         boolean isFull();
         boolean isOperational();
         List<Vehicle> getVehicles();
+        String getStatus();
+
 }

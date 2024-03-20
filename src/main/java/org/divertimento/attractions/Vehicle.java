@@ -58,4 +58,8 @@ public class Vehicle implements IVehicle {
     public String getIdVehicle() {
         return idVehicle;
     }
+
+    public Utils.AnchorState getAnchorState() {
+        return anchorState;
+    }
 }
