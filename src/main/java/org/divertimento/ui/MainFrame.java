@@ -2,6 +2,7 @@ package org.divertimento.ui;
 
 import org.divertimento.attractions.Vehicle;
 import org.divertimento.control.AttractionController;
+import org.divertimento.cra.CentralReceiver;
 import org.divertimento.cra.Operator;
 import org.divertimento.utils.Utils;
 
@@ -17,6 +18,9 @@ public class MainFrame {
     private List<Vehicle> noriaVehicles;
     private List<Vehicle> rollerCoasterVehicles;
     private List<Vehicle> breakdownVehicles;
+    private CentralReceiver centralReceiver;
+
+    List<Vehicle> brokenVehicles = new ArrayList<>();
 
     public MainFrame(List<Operator> operators, AttractionController noriaController, AttractionController rollerCoasterController, List<Vehicle> noriaVehicles, List<Vehicle> rollerCoasterVehicles) {
         scanner = new Scanner(System.in);
@@ -33,6 +37,7 @@ public class MainFrame {
         this.noriaVehicles = noriaVehicles != null ? noriaVehicles : new ArrayList<>();
         this.rollerCoasterVehicles = rollerCoasterVehicles != null ? rollerCoasterVehicles : new ArrayList<>();
         this.breakdownVehicles = new ArrayList<>();
+        this.centralReceiver = CentralReceiver.getInstance(operators);
     }
 
     public boolean run() {
@@ -42,7 +47,8 @@ public class MainFrame {
         System.out.println("3. Attractions Status");
         System.out.println("4. Check for failures");
         System.out.println("5. List Breakdowns");
-        System.out.println("6. Exit");
+        System.out.println("6. CRA Report");
+        System.out.println("7. Exit");
         System.out.print("Please enter your choice: ");
 
         String choice = scanner.nextLine();
@@ -64,6 +70,9 @@ public class MainFrame {
                 listBreakdowns();
                 break;
             case "6":
+                centralReceiver.getCRAReport();
+                break;
+            case "7":
                 //close();
                 System.out.println("Closing system...");
                 System.exit(0);

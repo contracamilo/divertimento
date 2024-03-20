@@ -62,4 +62,5 @@ public class Vehicle implements IVehicle {
     public Utils.AnchorState getAnchorState() {
         return anchorState;
     }
+
 }
