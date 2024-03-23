@@ -2,6 +2,9 @@
 
 Divertimento es un sistema de gestión para un parque de atracciones. El sistema permite simular averías en las atracciones, asignar operarios para reparar las averías y simular el flujo de visitantes en las atracciones.
 
+<img width="961" alt="Screenshot 2024-03-23 at 12 58 31 AM" src="https://github.com/contracamilo/divertimento/assets/27745159/3dc2c1ae-3579-4e68-8846-d24f3c00d37b">
+
+
 ## Configuración
 
 Para configurar el proyecto, sigue estos pasos:
