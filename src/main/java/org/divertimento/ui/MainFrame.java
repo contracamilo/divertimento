@@ -57,11 +57,10 @@ public class MainFrame {
         System.out.println("1. List attractions and vehicles");
         System.out.println("2. Simulations");
         System.out.println("3. Attractions Status");
-        System.out.println("4. Check for failures");
-        System.out.println("5. List Breakdowns");
-        System.out.println("6. CRA Report");
-        System.out.println("7. Resolve Breakdown");
-        System.out.println("8. Exit");
+        System.out.println("4. List Breakdowns");
+        System.out.println("5. CRA Report");
+        System.out.println("6. Resolve Breakdown");
+        System.out.println("7. Exit");
         System.out.print("Please enter your choice: ");
 
         String choice = scanner.nextLine();
@@ -77,18 +76,15 @@ public class MainFrame {
                 printStatus();
                 break;
             case "4":
-//                checkForFailures();
-                break;
-            case "5":
                 listBreakdowns();
                 break;
-            case "6":
+            case "5":
                 centralReceiver.getCRAReport();
                 break;
-            case "7":
+            case "6":
                 resolveBreakdown();
                 break;
-            case "8":
+            case "7":
                 //close();
                 System.out.println("Closing system...");
                 System.exit(0);

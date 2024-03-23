@@ -17,29 +17,67 @@ Para configurar el proyecto, sigue estos pasos:
 
 Basándome en el caso de estudio, estas son las funcionalidades esperadas para el sistema de automatización de los parques de atracciones:
 
-1. **Detección de Anomalías en Atracciones**: 
-   - Sensor de anclaje en vehículos de la noria y vagones de la montaña rusa.
-   - Notificación automática a la Central Receptora de Averías (CRA) y a la atracción específica en caso de detectar problemas de anclaje.
+# Detección de Anomalías
 
-2. **Gestión de Averías y Mantenimiento**:
-   - Sistema en la CRA para asignar automáticamente averías a operarios de mantenimiento disponibles.
-   - Notificación a atracciones y componentes afectados cuando no haya operarios disponibles.
-   - Dispositivo para cada operario que recibe notificaciones de averías y muestra su estado (libre/ocupado).
-   - Actualización de estado por parte del operario en su dispositivo tras completar una reparación.
-   - Comunicación automática entre el dispositivo del operario, la CRA y la atracción sobre la finalización del mantenimiento.
+- **Automática**: El sistema debe detectar pérdidas de anclaje en vehículos de la noria y montaña rusa.
+- **Notificación**: En caso de detección, notificar inmediatamente a la Central Receptora de Averías (CRA) y a la atracción afectada.
 
-3. **Control de Acceso y Conteo de Usuarios**:
-   - Torniquetes en la entrada y salida para contabilizar el número de personas que entran y salen de una atracción.
-   - Prevención de sobrecarga de la atracción mediante control de capacidad máxima.
-   - Asegurar que todos los usuarios abandonen la atracción tras cada uso.
+# Gestión de Averías
 
-4. **Gestión de Operaciones de Atracciones**:
-   - Sistema de arranque y parada de atracciones basado en la información de llenado y estado de la atracción.
-   - Comunicación entre torniquetes y el controlador de la atracción para gestionar el flujo de usuarios y el inicio o parada de la atracción.
-   - Indicadores de estado en los torniquetes (verde para libre, amarillo para espera de reparación).
+- **Asignación Automática**: La CRA asigna un operario de mantenimiento libre para la avería detectada.
+- **Manejo de Disponibilidad**: Si no hay operarios libres, mantener la solicitud activa hasta que uno esté disponible.
 
-5. **Verificación de Seguridad antes de Iniciar Atracciones**:
-   - Consulta automática al estado de la atracción (averías pendientes) antes de permitir la entrada de nuevos usuarios.
-   - Sistema de alarma si el torniquete de salida no se libera después de un tiempo determinado, indicando la posibilidad de que alguien se haya quedado dentro.
+# Comunicación y Registro
+
+- **Recepción y Estado**: Los dispositivos de los operarios deben mostrar las averías asignadas y marcar su estado a "ocupado" al atender una avería.
+- **Finalización y Notificación**: Tras la revisión, marcar la avería como resuelta, notificándolo a la CRA y al componente revisado.
+
+# Control de Afluencia
+
+- **Contabilización de Usuarios**: Monitorear el número de personas que entran y salen de cada atracción para no exceder la capacidad máxima.
+- **Verificación de Desalojo**: Asegurar que todos los usuarios abandonen la atracción al final de cada ciclo.
+
+# Arranque y Parada de Atracciones
+
+- **Inicio de Funcionamiento**: Iniciar solo cuando se alcanza la capacidad máxima o según criterio del operario.
+- **Parada Automática**: Activarse tras el desembarco de todos los pasajeros.
+
+# Indicadores de Estado
+
+- **Torniquetes**: Mostrar indicadores visuales (verde para libre, amarillo para en espera de reparación) reflejando el estado de la atracción y la presencia de usuarios.
+
+# Verificación de Seguridad
+
+- **Previo a la Entrada**: El torniquete de entrada debe verificar que no haya averías pendientes.
+- **Medidas de Seguridad**: Si hay averías pendientes o personas dentro de la atracción tras un tiempo establecido, tomar medidas para asegurar la seguridad antes del próximo uso.
+
 
 Estas funcionalidades permitirán automatizar la gestión de seguridad y operaciones de las atracciones, mejorando la eficiencia y la seguridad en el parque de atracciones.
+
+## Descripción de Clases e Interfaces
+
+1. `IAttraction` (Interfaz): Define los métodos que todas las atracciones deben implementar. Incluye métodos para iniciar y detener la atracción, reportar averías, verificar los vehículos, permitir la entrada y salida de visitantes, y obtener información sobre el estado de la atracción.
+
+2. `EntranceTurnstile` (Clase): Representa un torniquete de entrada a una atracción. Tiene un método `enter` que permite a los visitantes entrar a la atracción si no hay averías pendientes.
+
+3. `Main` (Clase): Clase principal que inicia el sistema. No requiere cambios para la "Verificación de Seguridad".
+
+4. `MainFrame` (Clase): Interfaz de usuario del sistema. Ofrece un menú principal para seleccionar opciones como listar atracciones y vehículos, simular la entrada de nuevos usuarios a la atracción, y resolver averías.
+
+5. `IEntranceTurnstile` (Interfaz): Define los métodos que todos los torniquetes de entrada deben implementar. Incluye un método `enter` para permitir la entrada de visitantes.
+
+6. `ExitTurnstile` (Clase): Representa un torniquete de salida de una atracción. Tiene un método `exit` para permitir la salida de visitantes.
+
+7. `Noria` (Clase): Representa la atracción de la Noria. Implementa `IAttraction` y tiene métodos para iniciar, detener, permitir la entrada y salida de visitantes, y manejar averías.
+
+8. `RollerCoaster` (Clase): Representa la Montaña Rusa. Como `Noria`, implementa `IAttraction` con métodos similares para manejar la atracción.
+
+9. `IExitTurnstile` (Interfaz): Define los métodos que todos los torniquetes de salida deben implementar. Incluye un método `exit` para permitir la salida de visitantes.
+
+10. `Vehicle` (Clase): Representa un vehículo en una atracción. Tiene métodos para verificar el anclaje del vehículo y reportar al CRA si hay una avería.
+
+11. `AttractionController` (Clase): Responsable de controlar una atracción. Tiene métodos para iniciar y detener la atracción, y permitir la entrada y salida de visitantes.
+
+12. `IVehicle` (Interfaz): Define los métodos que todos los vehículos deben implementar. Incluye métodos para verificar el anclaje del vehículo y reportar al CRA si hay una avería.
+
+En resumen, este sistema de control para un parque de atracciones permite manejar las atracciones y los visitantes, detectar y resolver averías, y simular diferentes escenarios para probar el sistema.
