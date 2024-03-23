@@ -20,36 +20,36 @@ Para configurar el proyecto, sigue estos pasos:
 
 Basándome en el caso de estudio, estas son las funcionalidades esperadas para el sistema de automatización de los parques de atracciones:
 
-# Detección de Anomalías
+### Detección de Anomalías
 
 - **Automática**: El sistema debe detectar pérdidas de anclaje en vehículos de la noria y montaña rusa.
 - **Notificación**: En caso de detección, notificar inmediatamente a la Central Receptora de Averías (CRA) y a la atracción afectada.
 
-# Gestión de Averías
+### Gestión de Averías
 
 - **Asignación Automática**: La CRA asigna un operario de mantenimiento libre para la avería detectada.
 - **Manejo de Disponibilidad**: Si no hay operarios libres, mantener la solicitud activa hasta que uno esté disponible.
 
-# Comunicación y Registro
+### Comunicación y Registro
 
 - **Recepción y Estado**: Los dispositivos de los operarios deben mostrar las averías asignadas y marcar su estado a "ocupado" al atender una avería.
 - **Finalización y Notificación**: Tras la revisión, marcar la avería como resuelta, notificándolo a la CRA y al componente revisado.
 
-# Control de Afluencia
+### Control de Afluencia
 
 - **Contabilización de Usuarios**: Monitorear el número de personas que entran y salen de cada atracción para no exceder la capacidad máxima.
 - **Verificación de Desalojo**: Asegurar que todos los usuarios abandonen la atracción al final de cada ciclo.
 
-# Arranque y Parada de Atracciones
+### Arranque y Parada de Atracciones
 
 - **Inicio de Funcionamiento**: Iniciar solo cuando se alcanza la capacidad máxima o según criterio del operario.
 - **Parada Automática**: Activarse tras el desembarco de todos los pasajeros.
 
-# Indicadores de Estado
+### Indicadores de Estado
 
 - **Torniquetes**: Mostrar indicadores visuales (verde para libre, amarillo para en espera de reparación) reflejando el estado de la atracción y la presencia de usuarios.
 
-# Verificación de Seguridad
+### Verificación de Seguridad
 
 - **Previo a la Entrada**: El torniquete de entrada debe verificar que no haya averías pendientes.
 - **Medidas de Seguridad**: Si hay averías pendientes o personas dentro de la atracción tras un tiempo establecido, tomar medidas para asegurar la seguridad antes del próximo uso.
