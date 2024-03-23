@@ -30,14 +30,14 @@ public class Noria implements IAttraction {
 
     @Override
     public void start() {
-        if (!isFull() && isOperational()) {
+        if (currentCapacity >= maxCapacity) {
             System.out.println("Starting Noria...");
         }
     }
 
     @Override
     public void stop() {
-        if (isFull() || !isOperational()) {
+        if (currentCapacity == 0) {
             System.out.println("Stopping Noria...");
         }
     }
@@ -130,6 +130,16 @@ public class Noria implements IAttraction {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean isWaitingForRepair() {
+        return breakdownCounter > 0;
+    }
+
+    @Override
+    public boolean hasPendingRepairs() {
+        return breakdownCounter > 0;
     }
 
     public void setBreakdownCounter(int breakdownCounter) {

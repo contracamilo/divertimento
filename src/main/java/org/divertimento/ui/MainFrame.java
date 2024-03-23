@@ -2,6 +2,8 @@ package org.divertimento.ui;
 
 import org.divertimento.attractions.Vehicle;
 import org.divertimento.control.AttractionController;
+import org.divertimento.control.EntranceTurnstile;
+import org.divertimento.control.ExitTurnstile;
 import org.divertimento.cra.CentralReceiver;
 import org.divertimento.cra.Operator;
 import org.divertimento.utils.Utils;
@@ -19,8 +21,12 @@ public class MainFrame {
     private List<Vehicle> rollerCoasterVehicles;
     private List<Vehicle> breakdownVehicles;
     private CentralReceiver centralReceiver;
+    private EntranceTurnstile noriaEntranceTurnstile;
+    private ExitTurnstile noriaExitTurnstile;
+    private EntranceTurnstile rollerCoasterEntranceTurnstile;
+    private ExitTurnstile rollerCoasterExitTurnstile;
 
-    List<Vehicle> brokenVehicles = new ArrayList<>();
+    public List<Vehicle> brokenVehicles = new ArrayList<>();
 
     public MainFrame(List<Operator> operators, AttractionController noriaController, AttractionController rollerCoasterController, List<Vehicle> noriaVehicles, List<Vehicle> rollerCoasterVehicles) {
         scanner = new Scanner(System.in);
@@ -38,6 +44,12 @@ public class MainFrame {
         this.rollerCoasterVehicles = rollerCoasterVehicles != null ? rollerCoasterVehicles : new ArrayList<>();
         this.breakdownVehicles = new ArrayList<>();
         this.centralReceiver = CentralReceiver.getInstance(operators);
+
+        // Initialize the turnstiles
+        this.noriaEntranceTurnstile = new EntranceTurnstile(noriaController.getAttraction());
+        this.noriaExitTurnstile = new ExitTurnstile(noriaController.getAttraction());
+        this.rollerCoasterEntranceTurnstile = new EntranceTurnstile(rollerCoasterController.getAttraction());
+        this.rollerCoasterExitTurnstile = new ExitTurnstile(rollerCoasterController.getAttraction());
     }
 
     public boolean run() {
@@ -91,17 +103,21 @@ public class MainFrame {
     private void runSimulationsMenu() {
         while (true) {
             System.out.println("\nDivertimento Park System - Simulations Menu");
-            System.out.println("1. Simulate Visitors Flow");
+            System.out.println("1. Simulate Turnstile status");
             System.out.println("2. Simulate Breakdown");
             System.out.println("3. Simulate Entrance");
-            System.out.println("4. Simulate Exit");
+            System.out.println("4. Simulate Breakdown");
+            System.out.println("5. Simulate start attraction");
+            System.out.println("6. Simulate stop attraction");
+            System.out.println("7. Simulate entrance");
+            System.out.println("8. Back to main menu");
             System.out.print("Please enter your choice: ");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    //simulateVisitorsFlow();
+                    checkTurnstileStatus();
                     break;
                 case "2":
                     if (noriaVehicles != null) {
@@ -117,6 +133,16 @@ public class MainFrame {
                     simulateExit();
                     break;
                 case "5":
+                    simulateStartAttraction();
+                    break;
+
+                case "6":
+                    simulateStopAttraction();
+                    break;
+                case "7":
+                    simulateEntrance();
+                    return;
+                case "8":
                     return;
                 default:
                     System.out.println("Invalid choice, please try again.");
@@ -187,9 +213,9 @@ public class MainFrame {
         String attractionName = scanner.nextLine();
 
         if (attractionName.equalsIgnoreCase("Noria")) {
-            System.out.println("Entrance to Noria: " + noriaController.enterAttraction());
+            System.out.println("Entrance to Noria: " + noriaEntranceTurnstile.enter());
         } else if (attractionName.equalsIgnoreCase("RollerCoaster")) {
-            System.out.println("Entrance to RollerCoaster: " + rollerCoasterController.enterAttraction());
+            System.out.println("Entrance to RollerCoaster: " + rollerCoasterEntranceTurnstile.enter());
         } else {
             System.out.println("Invalid attraction name, please try again.");
         }
@@ -203,6 +229,70 @@ public class MainFrame {
             System.out.println("Exit from Noria: " + noriaController.exitAttraction());
         } else if (attractionName.equalsIgnoreCase("RollerCoaster")) {
             System.out.println("Exit from RollerCoaster: " + rollerCoasterController.exitAttraction());
+        } else {
+            System.out.println("Invalid attraction name, please try again.");
+        }
+    }
+
+    private void simulateStartAttraction() {
+        System.out.print("Enter the ID of the operator who will start the attraction: ");
+        String operatorId = scanner.nextLine();
+
+        for (Operator operator : operators) {
+            if (operator.getIdOperator().equals(operatorId)) {
+                operator.controlAttraction();
+                System.out.println("Attraction started by operator: " + operatorId);
+                return;
+            }
+        }
+
+        System.out.println("No operator found with the ID: " + operatorId);
+    }
+
+    private void simulateStopAttraction() {
+        System.out.print("Enter the ID of the operator who will stop the attraction: ");
+        String operatorId = scanner.nextLine();
+
+        for (Operator operator : operators) {
+            if (operator.getIdOperator().equals(operatorId)) {
+                operator.controlAttraction();
+                System.out.println("Attraction stopped by operator: " + operatorId);
+                return;
+            }
+        }
+
+        System.out.println("No operator found with the ID: " + operatorId);
+    }
+
+    private void checkTurnstileStatus() {
+        System.out.print("Enter the name of the attraction (Noria or RollerCoaster) and the type of turnstile (Entrance or Exit): ");
+        String input = scanner.nextLine();
+        String[] parts = input.split(" ");
+
+        if (parts.length != 2) {
+            System.out.println("Invalid input, please try again.");
+            return;
+        }
+
+        String attractionName = parts[0];
+        String turnstileType = parts[1];
+
+        if (attractionName.equalsIgnoreCase("Noria")) {
+            if (turnstileType.equalsIgnoreCase("Entrance")) {
+                System.out.println("Noria Entrance Turnstile Status: " + noriaEntranceTurnstile.getStatus());
+            } else if (turnstileType.equalsIgnoreCase("Exit")) {
+                System.out.println("Noria Exit Turnstile Status: " + noriaExitTurnstile.getStatus());
+            } else {
+                System.out.println("Invalid turnstile type, please try again.");
+            }
+        } else if (attractionName.equalsIgnoreCase("RollerCoaster")) {
+            if (turnstileType.equalsIgnoreCase("Entrance")) {
+                System.out.println("RollerCoaster Entrance Turnstile Status: " + rollerCoasterEntranceTurnstile.getStatus());
+            } else if (turnstileType.equalsIgnoreCase("Exit")) {
+                System.out.println("RollerCoaster Exit Turnstile Status: " + rollerCoasterExitTurnstile.getStatus());
+            } else {
+                System.out.println("Invalid turnstile type, please try again.");
+            }
         } else {
             System.out.println("Invalid attraction name, please try again.");
         }

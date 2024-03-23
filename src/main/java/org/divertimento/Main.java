@@ -17,17 +17,20 @@ public class Main {
     public static void main(String[] args) {
         boolean running = true;
 
+        List<Vehicle> noriaVehicles = new ArrayList<>();
+        List<Vehicle> rollerCoasterVehicles = new ArrayList<>();
+        Noria noria = new Noria(noriaVehicles, 0, 100, 30, 25);
+        RollerCoaster rollerCoaster = new RollerCoaster(rollerCoasterVehicles, 0, 20, 30, 25);
+
         List<Operator> operators = new ArrayList<>();
-        Operator operator1 = new Operator("Operador 1");
+        Operator operator1 = new Operator("Op-1", new AttractionController(noria));
+        Operator operator2 = new Operator("Op-2", new AttractionController(rollerCoaster));
+
         operator1.setDevice(new OperatorDevice(operator1));
         operators.add(operator1);
 
-        List<Vehicle> noriaVehicles = new ArrayList<>();
-        List<Vehicle> rollerCoasterVehicles = new ArrayList<>();
-        List<Vehicle> brokenVehicles = new ArrayList<>();
-
-        Noria noria = new Noria(noriaVehicles, 0, 100, 30, 25);
-        RollerCoaster rollerCoaster = new RollerCoaster(rollerCoasterVehicles, 0, 20, 30, 25);
+        operator2.setDevice(new OperatorDevice(operator2));
+        operators.add(operator2);
 
         CentralReceiver cra = CentralReceiver.getInstance(operators);
 

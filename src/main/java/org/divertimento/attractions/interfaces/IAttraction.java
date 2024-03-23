@@ -18,5 +18,7 @@ public interface IAttraction {
         int getCurrentCapacity();
         boolean enterAttraction();
         boolean exitAttraction();
+        boolean isWaitingForRepair();
+        boolean hasPendingRepairs();
 
 }

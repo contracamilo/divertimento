@@ -27,14 +27,13 @@ public class RollerCoaster implements IAttraction {
 
     @Override
     public void start() {
-        if (!isFull() && isOperational()) {
+        if (currentCapacity >= maxCapacity) {
             System.out.println("Starting RollerCoaster...");
         }
     }
-
     @Override
     public void stop() {
-        if (isFull() || !isOperational()) {
+        if (currentCapacity == 0) {
             System.out.println("Stopping RollerCoaster...");
         }
     }
@@ -133,4 +132,14 @@ public class RollerCoaster implements IAttraction {
             return false;
         }
     }
+
+    @Override
+    public boolean isWaitingForRepair() {
+        return breakdownCounter > 0;
+    }
+    @Override
+    public boolean hasPendingRepairs() {
+        return breakdownCounter > 0;
+    }
+
 }

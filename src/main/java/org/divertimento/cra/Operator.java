@@ -1,6 +1,7 @@
 package org.divertimento.cra;
 
 import org.divertimento.attractions.Vehicle;
+import org.divertimento.control.AttractionController;
 import org.divertimento.cra.interfaces.IOperator;
 import org.divertimento.utils.Utils;
 
@@ -9,9 +10,13 @@ public class Operator implements IOperator {
     private Utils.OperatorState status;
     private OperatorDevice device;
 
-    public Operator(String idOperator) {
+    private AttractionController attractionController;
+
+
+    public Operator(String idOperator, AttractionController attractionController) {
         this.idOperator = idOperator;
-        this.status = Utils.OperatorState.FREE; // El estado inicial del operador es libre
+        this.status = Utils.OperatorState.FREE;
+        this.attractionController = attractionController;
     }
 
     public void setDevice(OperatorDevice device) {
@@ -51,5 +56,14 @@ public class Operator implements IOperator {
 
     public void resolveBreakdown() {
         this.device.resolveBreakdown();
+    }
+
+
+    public void controlAttraction() {
+        if (attractionController.getAttraction().getCurrentCapacity() >= attractionController.getAttraction().getMaxCapacity()) {
+            attractionController.startAttraction();
+        } else {
+            attractionController.stopAttraction();
+        }
     }
 }

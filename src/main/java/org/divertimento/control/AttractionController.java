@@ -21,4 +21,12 @@ public class AttractionController {
     public IAttraction getAttraction() {
         return attraction;
     }
+
+    public void startAttraction() {
+        attraction.start();
+    }
+
+    public void stopAttraction() {
+        attraction.stop();
+    }
 }

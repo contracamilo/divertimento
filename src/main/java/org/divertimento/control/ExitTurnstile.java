@@ -18,19 +18,28 @@ public class ExitTurnstile implements IExitTurnstile {
     @Override
     public boolean exit() {
         if (attraction.exit()) {
-            status = Utils.Status.GREEN;
+            updateStatus();
             return true;
         } else {
-            status = Utils.Status.YELLOW;
+            updateStatus();
             return false;
         }
     }
+
+    public void updateStatus() {
+        if (attraction.isWaitingForRepair()) {
+            status = Utils.Status.YELLOW;
+        } else {
+            status = Utils.Status.GREEN;
+        }
+    }
+
     @Override
     public void checkAlarm() {
         long currentTime = System.currentTimeMillis();
         long timeSinceLastExit = currentTime - lastExitTime;
 
-        long alarmThreshold = 60000; // 1 minute in milliseconds
+        long alarmThreshold = 60000;
 
         if (timeSinceLastExit > alarmThreshold) {
             System.out.println("ALARM! Exit turnstile has not been released for more than 1 minute. Someone might be stuck inside.");
