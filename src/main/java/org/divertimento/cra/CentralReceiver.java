@@ -58,4 +58,13 @@ public class CentralReceiver implements ICentralReceiver {
             }
         }
     }
+
+    public void resolveBreakdown(String location) {
+        for (Vehicle vehicle : brokenVehicles) {
+            if (vehicle.getLocation().equals(location)) {
+                brokenVehicles.remove(vehicle);
+                break;
+            }
+        }
+    }
 }

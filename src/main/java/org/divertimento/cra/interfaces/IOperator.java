@@ -8,4 +8,6 @@ public interface IOperator {
     void completeBreakdown();
     // void updateStatus(Operator.OperatorState status);
     boolean isFree();
+
+    void resolveBreakdown();
 }

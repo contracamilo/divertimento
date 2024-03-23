@@ -26,24 +26,23 @@ public class Main {
         List<Vehicle> rollerCoasterVehicles = new ArrayList<>();
         List<Vehicle> brokenVehicles = new ArrayList<>();
 
-        Noria noria = new Noria(noriaVehicles, 0, 100);
-        RollerCoaster rollerCoaster = new RollerCoaster(rollerCoasterVehicles, 0, 20);
+        Noria noria = new Noria(noriaVehicles, 0, 100, 30, 25);
+        RollerCoaster rollerCoaster = new RollerCoaster(rollerCoasterVehicles, 0, 20, 30, 25);
 
         CentralReceiver cra = CentralReceiver.getInstance(operators);
 
         // Vehículos para la Noria
-        noriaVehicles.add(new Vehicle("Vehículo 1", noria, false, Utils.AnchorState.PINNED, cra));
-        noriaVehicles.add(new Vehicle("Vehículo 2", noria, false, Utils.AnchorState.PINNED, cra));
-        noriaVehicles.add(new Vehicle("Vehículo 3", noria, false, Utils.AnchorState.PINNED, cra));
+        noriaVehicles.add(new Vehicle("Vehículo 1", noria, false, Utils.AnchorState.PINNED, cra, "Noria"));
+        noriaVehicles.add(new Vehicle("Vehículo 2", noria, false, Utils.AnchorState.PINNED, cra, "Noria"));
+        noriaVehicles.add(new Vehicle("Vehículo 3", noria, false, Utils.AnchorState.PINNED, cra, "Noria"));
         // Vehículos para la m. rusa
-        rollerCoasterVehicles.add(new Vehicle("Carro 1", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
-        rollerCoasterVehicles.add(new Vehicle("Carro 2", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
-        rollerCoasterVehicles.add(new Vehicle("Carro 3", rollerCoaster, false, Utils.AnchorState.PINNED, cra));
+        rollerCoasterVehicles.add(new Vehicle("Carro 1", rollerCoaster, false, Utils.AnchorState.PINNED, cra, "RollerCoaster"));
+        rollerCoasterVehicles.add(new Vehicle("Carro 2", rollerCoaster, false, Utils.AnchorState.PINNED, cra, "RollerCoaster"));
+        rollerCoasterVehicles.add(new Vehicle("Carro 3", rollerCoaster, false, Utils.AnchorState.PINNED, cra, "RollerCoaster"));
 
 
         while (running) {
 
-            // Crear controladores de atracciones
             AttractionController noriaController = new AttractionController(noria);
             AttractionController rollerCoasterController = new AttractionController(rollerCoaster);
 

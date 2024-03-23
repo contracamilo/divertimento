@@ -3,7 +3,6 @@ package org.divertimento.attractions;
 import org.divertimento.attractions.interfaces.IAttraction;
 import org.divertimento.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Noria implements IAttraction {
@@ -13,11 +12,16 @@ public class Noria implements IAttraction {
     private int capacity;
     private int currentCount;
 
-    public Noria(List<Vehicle> vehicles, int breakdownCounter, int capacity) {
+    private int maxCapacity;
+    private int currentCapacity;
+
+    public Noria(List<Vehicle> vehicles, int breakdownCounter, int capacity, int maxCapacity, int currentCapacity) {
         this.vehicles = vehicles;
         this.breakdownCounter = breakdownCounter;
         this.capacity = capacity;
         this.currentCount = 0;
+        this.maxCapacity = maxCapacity;
+        this.currentCapacity = currentCapacity;
     }
 
     public int getBreakdownCounter() {
@@ -96,6 +100,36 @@ public class Noria implements IAttraction {
             }
         }
         return "Operational";
+    }
+
+    @Override
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    @Override
+    public int getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    @Override
+    public boolean enterAttraction() {
+        if (currentCapacity < maxCapacity) {
+            currentCapacity++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean exitAttraction() {
+        if (currentCapacity > 0) {
+            currentCapacity--;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setBreakdownCounter(int breakdownCounter) {

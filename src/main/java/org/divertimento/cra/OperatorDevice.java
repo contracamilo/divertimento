@@ -43,4 +43,12 @@ public class OperatorDevice {
     public int getBreakdownCount() {
         return this.breakdownCount;
     }
+
+    public void resolveBreakdown() {
+        if (this.isOn) {
+            CentralReceiver.getInstance(null).resolveBreakdown(this.location);
+            this.location = null;
+            this.updateStatus(false);
+        }
+    }
 }

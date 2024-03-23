@@ -13,12 +13,16 @@ public class Vehicle implements IVehicle {
     private boolean hasReviewRequest;
     private Utils.AnchorState anchorState;
 
-    public Vehicle(String idVehicle, IAttraction attraction, boolean hasReviewRequest, Utils.AnchorState anchorState, CentralReceiver cra) {
+    private final String location;
+
+
+    public Vehicle(String idVehicle, IAttraction attraction, boolean hasReviewRequest, Utils.AnchorState anchorState, CentralReceiver cra, String location) {
         this.idVehicle = idVehicle;
         this.attraction = attraction;
         this.hasReviewRequest = hasReviewRequest;
         this.anchorState = anchorState;
         this.cra = cra;
+        this.location = location;
     }
 
     public void setAnchorState(Utils.AnchorState anchorState) {
@@ -61,6 +65,10 @@ public class Vehicle implements IVehicle {
 
     public Utils.AnchorState getAnchorState() {
         return anchorState;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
 }

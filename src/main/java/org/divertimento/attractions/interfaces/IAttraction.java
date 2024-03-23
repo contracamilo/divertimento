@@ -14,5 +14,9 @@ public interface IAttraction {
         boolean isOperational();
         List<Vehicle> getVehicles();
         String getStatus();
+        int getMaxCapacity();
+        int getCurrentCapacity();
+        boolean enterAttraction();
+        boolean exitAttraction();
 
 }

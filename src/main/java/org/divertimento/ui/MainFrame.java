@@ -48,7 +48,8 @@ public class MainFrame {
         System.out.println("4. Check for failures");
         System.out.println("5. List Breakdowns");
         System.out.println("6. CRA Report");
-        System.out.println("7. Exit");
+        System.out.println("7. Resolve Breakdown");
+        System.out.println("8. Exit");
         System.out.print("Please enter your choice: ");
 
         String choice = scanner.nextLine();
@@ -64,7 +65,7 @@ public class MainFrame {
                 printStatus();
                 break;
             case "4":
-                checkForFailures();
+//                checkForFailures();
                 break;
             case "5":
                 listBreakdowns();
@@ -73,6 +74,9 @@ public class MainFrame {
                 centralReceiver.getCRAReport();
                 break;
             case "7":
+                resolveBreakdown();
+                break;
+            case "8":
                 //close();
                 System.out.println("Closing system...");
                 System.exit(0);
@@ -88,12 +92,9 @@ public class MainFrame {
         while (true) {
             System.out.println("\nDivertimento Park System - Simulations Menu");
             System.out.println("1. Simulate Visitors Flow");
-            System.out.println("2. Simulate Entrance to Noria");
-            System.out.println("3. Simulate Exit from Noria");
-            System.out.println("4. Simulate Entrance to RollerCoaster");
-            System.out.println("5. Simulate Exit from RollerCoaster");
-            System.out.println("6. Simulate Breakdown");
-            System.out.println("7. Back to Main Menu");
+            System.out.println("2. Simulate Breakdown");
+            System.out.println("3. Simulate Entrance");
+            System.out.println("4. Simulate Exit");
             System.out.print("Please enter your choice: ");
 
             String choice = scanner.nextLine();
@@ -103,25 +104,19 @@ public class MainFrame {
                     //simulateVisitorsFlow();
                     break;
                 case "2":
-                    System.out.println("Entrance to Noria: " + noriaController.enterAttraction());
-                    break;
-                case "3":
-                    System.out.println("Exit from Noria: " + noriaController.exitAttraction());
-                    break;
-                case "4":
-                    System.out.println("Entrance to RollerCoaster: " + rollerCoasterController.enterAttraction());
-                    break;
-                case "5":
-                    System.out.println("Exit from RollerCoaster: " + rollerCoasterController.exitAttraction());
-                    break;
-                case "6":
                     if (noriaVehicles != null) {
                         simulateBreakdown(noriaVehicles);
                     } else {
-                        System.out.println("No vehicles found for Noria.");
+                        System.out.println("No vehicles found.");
                     }
                     break;
-                case "7":
+                case "3":
+                    simulateEntrance();
+                    break;
+                case "4":
+                    simulateExit();
+                    break;
+                case "5":
                     return;
                 default:
                     System.out.println("Invalid choice, please try again.");
@@ -172,9 +167,44 @@ public class MainFrame {
         }
     }
 
-    public void checkForFailures() {
+    private void resolveBreakdown() {
+        System.out.print("Enter the ID of the operator who resolved the breakdown: ");
+        String operatorId = scanner.nextLine();
 
+        for (Operator operator : operators) {
+            if (operator.getIdOperator().equals(operatorId)) {
+                operator.resolveBreakdown();
+                System.out.println("Breakdown resolved by operator: " + operatorId);
+                return;
+            }
+        }
 
+        System.out.println("No operator found with the ID: " + operatorId);
+    }
 
+    private void simulateEntrance() {
+        System.out.print("Enter the name of the attraction (Noria or RollerCoaster): ");
+        String attractionName = scanner.nextLine();
+
+        if (attractionName.equalsIgnoreCase("Noria")) {
+            System.out.println("Entrance to Noria: " + noriaController.enterAttraction());
+        } else if (attractionName.equalsIgnoreCase("RollerCoaster")) {
+            System.out.println("Entrance to RollerCoaster: " + rollerCoasterController.enterAttraction());
+        } else {
+            System.out.println("Invalid attraction name, please try again.");
+        }
+    }
+
+    private void simulateExit() {
+        System.out.print("Enter the name of the attraction (Noria or RollerCoaster): ");
+        String attractionName = scanner.nextLine();
+
+        if (attractionName.equalsIgnoreCase("Noria")) {
+            System.out.println("Exit from Noria: " + noriaController.exitAttraction());
+        } else if (attractionName.equalsIgnoreCase("RollerCoaster")) {
+            System.out.println("Exit from RollerCoaster: " + rollerCoasterController.exitAttraction());
+        } else {
+            System.out.println("Invalid attraction name, please try again.");
+        }
     }
 }

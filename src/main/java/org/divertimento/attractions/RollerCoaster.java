@@ -12,13 +12,18 @@ public class RollerCoaster implements IAttraction {
     private int capacity;
     private int currentCount;
 
-    public RollerCoaster(List<Vehicle> vehicles, int breakdownCounter, int capacity) {
+    private int maxCapacity;
+    private int currentCapacity;
+
+
+    public RollerCoaster(List<Vehicle> vehicles, int breakdownCounter, int capacity,  int maxCapacity,  int currentCapacity) {
         this.vehicles = vehicles;
         this.breakdownCounter = breakdownCounter;
         this.capacity = capacity;
         this.currentCount = 0;
+        this.maxCapacity = maxCapacity;
+        this.currentCapacity = currentCapacity;
     }
-
 
     @Override
     public void start() {
@@ -96,5 +101,36 @@ public class RollerCoaster implements IAttraction {
 
     public void setBreakdownCounter(int breakdownCounter) {
         this.breakdownCounter = breakdownCounter;
+    }
+
+
+    @Override
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    @Override
+    public int getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    @Override
+    public boolean enterAttraction() {
+        if (currentCapacity < maxCapacity) {
+            currentCapacity++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean exitAttraction() {
+        if (currentCapacity > 0) {
+            currentCapacity--;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

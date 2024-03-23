@@ -48,4 +48,8 @@ public class Operator implements IOperator {
     public String getIdOperator() {
         return idOperator;
     }
+
+    public void resolveBreakdown() {
+        this.device.resolveBreakdown();
+    }
 }
